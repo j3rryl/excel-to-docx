@@ -1,16 +1,21 @@
 /**
  * Generate a safe filename from template and record data
  */
-export function generateFilename(
-  record: Record<string, any>,
-  fileNameTemplate: string,
-  cleanFileName: boolean = true
-): string {
+export function generateFilename({
+  record,
+  fileNameTemplate,
+  cleanFileName = true,
+}: {
+  record: Record<string, any>;
+  fileNameTemplate: string;
+  cleanFileName?: boolean;
+}): string {
   let filename = fileNameTemplate;
 
   // Replace placeholders with record data
   Object.keys(record).forEach((key) => {
     const placeholder = `{{${key}}}`;
+
     if (filename.includes(placeholder) && record[key]) {
       filename = filename.replace(
         new RegExp(placeholder, "g"),
@@ -40,10 +45,13 @@ export function generateFilename(
 /**
  * Validate file existence
  */
-export async function validateFiles(
-  excelPath: string,
-  templatePath: string
-): Promise<void> {
+export async function validateFiles({
+  excelPath,
+  templatePath,
+}: {
+  excelPath: string;
+  templatePath: string;
+}): Promise<void> {
   const dataExists = await Bun.file(excelPath).exists();
   const templateExists = await Bun.file(templatePath).exists();
 
@@ -59,6 +67,10 @@ export async function validateFiles(
 /**
  * Create output directory if it doesn't exist
  */
-export async function ensureOutputDir(outputDir: string): Promise<void> {
+export async function ensureOutputDir({
+  outputDir,
+}: {
+  outputDir: string;
+}): Promise<void> {
   await Bun.$`mkdir -p ${outputDir}`.quiet();
 }

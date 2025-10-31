@@ -1,8 +1,5 @@
 export interface ExcelRecord {
   [key: string]: any;
-  CustomerName?: string;
-  Email?: string;
-  Date?: string;
 }
 
 export interface GenerateOptions {

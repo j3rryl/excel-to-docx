@@ -36,5 +36,5 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .DS_Store
 
 # test
-template.docx
-data.xlsx
+test-output
+integration-output

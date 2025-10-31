@@ -4,17 +4,34 @@ import type { ExcelRecord } from "./types.js";
 /**
  * Load and validate Excel workbook
  */
-export function loadWorkbook(dataBuffer: ArrayBuffer): XLSX.WorkBook {
+export function loadWorkbook({
+  dataBuffer,
+}: {
+  dataBuffer: ArrayBuffer;
+}): XLSX.WorkBook {
   try {
-    return XLSX.read(dataBuffer, {
+    // Check if buffer is empty
+    if (dataBuffer.byteLength === 0) {
+      throw new Error("Empty file buffer");
+    }
+
+    const workbook = XLSX.read(dataBuffer, {
       type: "buffer",
       cellDates: true,
     });
+
+    // Additional validation: check if workbook has basic structure
+    if (!workbook.SheetNames || !Array.isArray(workbook.SheetNames)) {
+      throw new Error("Invalid Excel file structure");
+    }
+
+    return workbook;
   } catch (readError) {
+    if (readError instanceof Error) {
+      throw new Error(`Failed to read Excel file: ${readError.message}`);
+    }
     throw new Error(
-      `Failed to read Excel file: ${
-        readError instanceof Error ? readError.message : "File may be corrupted"
-      }`
+      "Failed to read Excel file: File may be corrupted or in an unsupported format"
     );
   }
 }
@@ -22,7 +39,11 @@ export function loadWorkbook(dataBuffer: ArrayBuffer): XLSX.WorkBook {
 /**
  * Get first sheet from workbook with validation
  */
-export function getFirstSheet(workbook: XLSX.WorkBook): XLSX.WorkSheet {
+export function getFirstSheet({
+  workbook,
+}: {
+  workbook: XLSX.WorkBook;
+}): XLSX.WorkSheet {
   if (!workbook.SheetNames || workbook.SheetNames.length === 0) {
     throw new Error("Excel file contains no sheets");
   }
@@ -54,7 +75,11 @@ export function getFirstSheet(workbook: XLSX.WorkBook): XLSX.WorkSheet {
 /**
  * Parse sheet data into records with validation
  */
-export function parseSheetData(sheet: XLSX.WorkSheet): ExcelRecord[] {
+export function parseSheetData({
+  sheet,
+}: {
+  sheet: XLSX.WorkSheet;
+}): ExcelRecord[] {
   let records: ExcelRecord[];
 
   try {
@@ -100,13 +125,16 @@ export function parseSheetData(sheet: XLSX.WorkSheet): ExcelRecord[] {
 /**
  * Load and validate Excel data from buffer
  */
-export function loadExcelData(
-  dataBuffer: ArrayBuffer,
-  verbose: boolean = false
-): ExcelRecord[] {
-  const workbook = loadWorkbook(dataBuffer);
-  const sheet = getFirstSheet(workbook);
-  const records = parseSheetData(sheet);
+export function loadExcelData({
+  dataBuffer,
+  verbose = false,
+}: {
+  dataBuffer: ArrayBuffer;
+  verbose?: boolean;
+}): ExcelRecord[] {
+  const workbook = loadWorkbook({ dataBuffer });
+  const sheet = getFirstSheet({ workbook });
+  const records = parseSheetData({ sheet });
 
   if (verbose) {
     const sampleRecord = records[0] as ExcelRecord;

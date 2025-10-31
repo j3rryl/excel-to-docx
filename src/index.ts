@@ -14,14 +14,18 @@ import { processRecord } from "./document-generator.js";
  * @param options - Generation options
  * @returns Promise with generation results
  */
-export async function generateDocuments(
-  excelPath: string,
-  templatePath: string,
-  options: GenerateOptions = {}
-): Promise<GenerationResult> {
+export async function generateDocuments({
+  excelPath,
+  templatePath,
+  options = {},
+}: {
+  excelPath: string;
+  templatePath: string;
+  options: GenerateOptions;
+}): Promise<GenerationResult> {
   const {
     outputDir = "./output",
-    fileNameTemplate = "{{CustomerName}}",
+    fileNameTemplate = "{{name}}",
     cleanFileName = true,
     verbose = false,
   } = options;
@@ -41,14 +45,14 @@ export async function generateDocuments(
     }
 
     // Check if files exist
-    await validateFiles(excelPath, templatePath);
+    await validateFiles({ excelPath, templatePath });
 
     // Read files using Bun
     const dataBuffer = await Bun.file(excelPath).arrayBuffer();
     const templateBuffer = await Bun.file(templatePath).arrayBuffer();
 
     // Load Excel data
-    const records = loadExcelData(dataBuffer, verbose);
+    const records = loadExcelData({ dataBuffer, verbose });
     result.totalRecords = records.length;
 
     if (records.length === 0) {
@@ -56,19 +60,19 @@ export async function generateDocuments(
     }
 
     // Create output directory
-    await ensureOutputDir(outputDir);
+    await ensureOutputDir({ outputDir });
 
     // Process each record
     for (const [index, record] of records.entries()) {
-      const recordResult = await processRecord(
+      const recordResult = await processRecord({
         record,
         index,
         templateBuffer,
         outputDir,
         fileNameTemplate,
         cleanFileName,
-        verbose
-      );
+        verbose,
+      });
 
       if (recordResult.success && recordResult.filePath) {
         result.generatedFiles.push(recordResult.filePath);
@@ -89,7 +93,7 @@ export async function generateDocuments(
         `Successfully generated ${result.successfulRecords} documents in ${outputDir}`
       );
       if (result.errors.length > 0) {
-        console.log(`⚠️  ${result.errors.length} records had errors`);
+        console.log(`${result.errors.length} records had errors`);
       }
     }
 
@@ -114,14 +118,18 @@ export async function generateDocuments(
  * @param options - Generation options
  * @returns Promise with generation results
  */
-export async function generateDocumentsFromBuffer(
-  excelBuffer: ArrayBuffer,
-  templateBuffer: ArrayBuffer,
-  options: GenerateOptions = {}
-): Promise<GenerationResult> {
+export async function generateDocumentsFromBuffer({
+  excelBuffer,
+  templateBuffer,
+  options = {},
+}: {
+  excelBuffer: ArrayBuffer;
+  templateBuffer: ArrayBuffer;
+  options: GenerateOptions;
+}): Promise<GenerationResult> {
   const {
     outputDir = "./output",
-    fileNameTemplate = "{{CustomerName}}",
+    fileNameTemplate = "{{name}}",
     cleanFileName = true,
     verbose = false,
   } = options;
@@ -136,7 +144,7 @@ export async function generateDocumentsFromBuffer(
 
   try {
     // Load Excel data from buffer
-    const records = loadExcelData(excelBuffer, verbose);
+    const records = loadExcelData({ dataBuffer: excelBuffer, verbose });
     result.totalRecords = records.length;
 
     if (records.length === 0) {
@@ -144,19 +152,19 @@ export async function generateDocumentsFromBuffer(
     }
 
     // Create output directory
-    await ensureOutputDir(outputDir);
+    await ensureOutputDir({ outputDir });
 
     // Process each record
     for (const [index, record] of records.entries()) {
-      const recordResult = await processRecord(
+      const recordResult = await processRecord({
         record,
         index,
         templateBuffer,
         outputDir,
         fileNameTemplate,
         cleanFileName,
-        verbose
-      );
+        verbose,
+      });
 
       if (recordResult.success && recordResult.filePath) {
         result.generatedFiles.push(recordResult.filePath);
@@ -207,14 +215,18 @@ export { validateFiles } from "./utils.js";
  * @param excelPath - Path to Excel file
  * @returns Sheet names and record count
  */
-export async function inspectExcelFile(excelPath: string): Promise<{
+export async function inspectExcelFile({
+  excelPath,
+}: {
+  excelPath: string;
+}): Promise<{
   sheetNames: string[];
   firstSheetName: string;
   recordCount: number;
   fields: string[];
 }> {
   // Validate file exists
-  await validateFiles(excelPath, excelPath);
+  await validateFiles({ excelPath, templatePath: excelPath });
 
   const buffer = await Bun.file(excelPath).arrayBuffer();
 
@@ -226,7 +238,7 @@ export async function inspectExcelFile(excelPath: string): Promise<{
   const firstSheetName = sheetNames[0] || "Sheet1";
 
   // Load records to get field information
-  const records = loadExcelData(buffer, false);
+  const records = loadExcelData({ dataBuffer: buffer, verbose: false });
   const fields = records[0] ? Object.keys(records[0]) : [];
 
   return {
@@ -243,19 +255,22 @@ export async function inspectExcelFile(excelPath: string): Promise<{
  * @param templatePath - Path to Word template file
  * @returns Preview information
  */
-export async function previewGeneration(
-  excelPath: string,
-  templatePath: string
-): Promise<{
+export async function previewGeneration({
+  excelPath,
+  templatePath,
+}: {
+  excelPath: string;
+  templatePath: string;
+}): Promise<{
   recordCount: number;
   sampleRecord: ExcelRecord;
   fields: string[];
   outputFileNames: string[];
 }> {
-  await validateFiles(excelPath, templatePath);
+  await validateFiles({ excelPath, templatePath });
 
   const dataBuffer = await Bun.file(excelPath).arrayBuffer();
-  const records = loadExcelData(dataBuffer, false);
+  const records = loadExcelData({ dataBuffer, verbose: false });
 
   if (records.length === 0) {
     throw new Error("No records found in Excel file");
@@ -269,9 +284,13 @@ export async function previewGeneration(
 
   // Generate sample output filenames for first 3 records
   const { generateFilename } = await import("./utils.js");
-  const outputFileNames = records
-    .slice(0, 3)
-    .map((record) => generateFilename(record, "{{CustomerName}}", true));
+  const outputFileNames = records.slice(0, 3).map((record) =>
+    generateFilename({
+      record,
+      fileNameTemplate: "{{name}}",
+      cleanFileName: true,
+    })
+  );
 
   return {
     recordCount: records.length,

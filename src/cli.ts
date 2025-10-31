@@ -29,10 +29,14 @@ program
   .action(
     async (excelFile: string, templateFile: string, options: CliOptions) => {
       try {
-        const result = await generateDocuments(excelFile, templateFile, {
-          outputDir: options.output,
-          fileNameTemplate: options.name,
-          verbose: options.verbose,
+        const result = await generateDocuments({
+          excelPath: excelFile,
+          templatePath: templateFile,
+          options: {
+            outputDir: options.output,
+            fileNameTemplate: options.name,
+            verbose: options.verbose,
+          },
         });
 
         if (result.success && !options.verbose) {

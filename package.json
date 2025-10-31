@@ -1,40 +1,32 @@
 {
   "name": "excel-to-docx",
-  "version": "0.0.1",
   "description": "Generate multiple DOCX documents from Excel data using Word templates",
   "type": "module",
-  "main": "./src/index.js",
-  "types": "./src/index.d.ts",
+  "version": "0.0.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
-    },
-    "./cli": {
-      "types": "./dist/cli.d.ts",
-      "import": "./dist/cli.js",
-      "require": "./dist/cli.cjs"
-    }
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
   },
-  "bin": {
-    "excel-to-docx": "./src/cli.js"
+  "scripts": {
+    "build": "bun run build.ts",
+    "prepublishOnly": "bun run build"
   },
   "files": [
     "dist",
     "README.md",
     "LICENSE"
   ],
-  "scripts": {
-    "build": "tsc && tsc --module CommonJS --outDir ./dist-cjs && mv dist-cjs/*.cjs dist/ && rm -rf dist-cjs",
-    "dev": "bun run src/cli.ts",
-    "prepublishOnly": "bun run build",
-    "start": "bun run src/cli.js"
+  "bin": {
+    "excel-to-docx": "./dist/cli.js"
   },
   "keywords": [
     "docx",
     "excel",
-    "xlsx", 
+    "xlsx",
     "template",
     "document-generation",
     "batch",
@@ -49,6 +41,7 @@
     "url": "https://github.com/j3rryl/excel-to-docx"
   },
   "dependencies": {
+    "bun-plugin-dts": "^0.3.0",
     "commander": "^14.0.2",
     "docxtemplater": "^3.42.0",
     "pizzip": "^3.1.4",

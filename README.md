@@ -66,7 +66,7 @@ This agreement is made between **{{Company}}** and the undersigned.
 
 Signed,
 {{name}}
-{{Date}}
+{{date}}
 ```
 
 ### 3. Generate Documents

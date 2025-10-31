@@ -44,13 +44,13 @@
     "url": "https://github.com/j3rryl/excel-to-docx"
   },
   "dependencies": {
-    "bun-plugin-dts": "^0.3.0",
     "commander": "^14.0.2",
     "docxtemplater": "^3.42.0",
     "pizzip": "^3.1.4",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
   },
   "devDependencies": {
+    "bun-plugin-dts": "^0.3.0",
     "@types/bun": "latest",
     "typescript": "^5.0.0"
   },

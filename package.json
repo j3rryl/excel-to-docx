@@ -1,0 +1,64 @@
+{
+  "name": "excel-to-docx",
+  "version": "0.0.1",
+  "description": "Generate multiple DOCX documents from Excel data using Word templates",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cli": {
+      "types": "./dist/cli.d.ts",
+      "import": "./dist/cli.js",
+      "require": "./dist/cli.cjs"
+    }
+  },
+  "bin": {
+    "excel-to-docx": "./src/cli.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc && tsc --module CommonJS --outDir ./dist-cjs && mv dist-cjs/*.cjs dist/ && rm -rf dist-cjs",
+    "dev": "bun run src/cli.ts",
+    "prepublishOnly": "bun run build",
+    "start": "bun run src/cli.js"
+  },
+  "keywords": [
+    "docx",
+    "excel",
+    "xlsx", 
+    "template",
+    "document-generation",
+    "batch",
+    "mail-merge",
+    "word",
+    "office"
+  ],
+  "author": "Jeremy Munroe",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/j3rryl/excel-to-docx"
+  },
+  "dependencies": {
+    "commander": "^14.0.2",
+    "docxtemplater": "^3.42.0",
+    "pizzip": "^3.1.4",
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -4,13 +4,13 @@ A powerful, type-safe document generation tool that creates multiple DOCX docume
 
 ## Features
 
-- 🚀 **Blazing Fast** - Built with Bun for superior performance
-- 📊 **Excel to DOCX** - Convert Excel data into multiple Word documents
-- 🎯 **Type-Safe** - Full TypeScript support with excellent IDE completion
-- 📝 **Template Engine** - Use simple `{{placeholder}}` syntax in your Word templates
-- 🛡️ **Error Handling** - Comprehensive error reporting and validation
-- 🔧 **Flexible** - Customizable file naming and output options
-- 💻 **CLI & API** - Use as command-line tool or programmatic API
+- **Blazing Fast** - Built with Bun for superior performance
+- **Excel to DOCX** - Convert Excel data into multiple Word documents
+- **Type-Safe** - Full TypeScript support with excellent IDE completion
+- **Template Engine** - Use simple `{{placeholder}}` syntax in your Word templates
+- **Error Handling** - Comprehensive error reporting and validation
+- **Flexible** - Customizable file naming and output options
+- **CLI & API** - Use as command-line tool or programmatic API
 
 ## Installation
 
@@ -20,8 +20,8 @@ A powerful, type-safe document generation tool that creates multiple DOCX docume
 # Install globally
 bun install -g excel-to-docx
 
-# Or use with npx
-npx excel-to-docx
+# Or use with bunx
+bunx excel-to-docx
 ```
 
 ### For Node.js Users
@@ -97,7 +97,7 @@ excel-to-docx data.xlsx template.docx -o ./contracts
 ### Custom File Naming
 
 ```bash
-excel-to-docx data.xlsx template.docx -n "Contract_{{Company}}_{{Date}}"
+excel-to-docx data.xlsx template.docx -n "Contract_{{company}}_{{date}}"
 ```
 
 This creates files like: `Name.docx`
@@ -148,7 +148,7 @@ async function generateContractDocuments() {
   try {
     const result = await generateDocuments("data.xlsx", "template.docx", {
       outputDir: "./legal-docs",
-      fileNameTemplate: "Contract_{{Company}}_{{Date}}",
+      fileNameTemplate: "Contract_{{company}}_{{cate}}",
       cleanFileName: true,
       verbose: true,
     });
@@ -158,7 +158,7 @@ async function generateContractDocuments() {
     } else {
       console.log("Generated with some errors:");
       result.errors.forEach((error) => {
-        console.log(`  Record ${error.record}: ${error.error}`);
+        console.log(`Record ${error.record}: ${error.error}`);
       });
     }
 

@@ -2,7 +2,7 @@
   "name": "excel-to-docx",
   "description": "Generate multiple DOCX documents from Excel data using Word templates",
   "type": "module",
-  "version": "0.0.3",
+  "version": "0.0.31",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

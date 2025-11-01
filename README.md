@@ -129,10 +129,14 @@ bun add excel-to-docx
 ```typescript
 import { generateDocuments } from "excel-to-docx";
 
-const result = await generateDocuments("data.xlsx", "template.docx", {
-  outputDir: "./contracts",
-  fileNameTemplate: "{{name}}_Agreement",
-  verbose: true,
+const result = await generateDocuments({
+  excelFile: "data.xlsx",
+  templateFile: "template.docx",
+  options: {
+    outputDir: "./contracts",
+    fileNameTemplate: "{{name}}_Agreement",
+    verbose: true,
+  },
 });
 
 console.log(`Generated ${result.successfulRecords} documents`);
@@ -146,11 +150,15 @@ import { generateDocuments } from "excel-to-docx";
 
 async function generateContractDocuments() {
   try {
-    const result = await generateDocuments("data.xlsx", "template.docx", {
-      outputDir: "./legal-docs",
-      fileNameTemplate: "Contract_{{company}}_{{cate}}",
-      cleanFileName: true,
-      verbose: true,
+    const result = await generateDocuments({
+      excelFile: "data.xlsx",
+      templateFile: "template.docx",
+      options: {
+        outputDir: "./legal-docs",
+        fileNameTemplate: "Contract_{{company}}_{{date}}",
+        cleanFileName: true,
+        verbose: true,
+      },
     });
 
     if (result.success) {
@@ -302,7 +310,7 @@ bun install
 # Run in development mode
 bun run dev --help
 
-# Run tests (add your test files)
+# Run tests
 bun test
 ```
 

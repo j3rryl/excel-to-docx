@@ -1,4 +1,4 @@
-# Excel to DOCX 📄✨
+# Excel to DOCX
 
 A powerful, type-safe document generation tool that creates multiple DOCX documents from Excel data using Word templates. Built with Bun and TypeScript for maximum performance and reliability.
 

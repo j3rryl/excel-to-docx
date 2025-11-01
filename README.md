@@ -51,7 +51,7 @@ Create a Word document with placeholders:
 ```
 # CONTRACT AGREEMENT
 
-This agreement is made between **{{Company}}** and the undersigned.
+This agreement is made between **{{company}}** and the undersigned.
 
 **Client Information:**
 - Name: {{name}}
@@ -176,27 +176,27 @@ generateContractDocuments();
 
 ### Basic Placeholders
 
-Use `{{FieldName}}` in your Word template where `FieldName` matches your Excel column headers.
+Use `{{fieldName}}` in your Word template where `fieldName` matches your Excel column headers.
 
 **Excel:**
-| FirstName | LastName | Email |
+| firstName | lastName | email |
 |-----------|----------|-------|
 | John | Doe | john@test.com |
 
 **Word Template:**
 
 ```
-Hello {{FirstName}} {{LastName}}!
+Hello {{firstName}} {{lastName}}!
 
-Your email is: {{Email}}
+Your email is: {{email}}
 ```
 
 ### Supported Data Types
 
-- **Strings**: `{{Name}}`, `{{Email}}`
-- **Dates**: `{{Date}}`, `{{CreatedAt}}`
-- **Numbers**: `{{Amount}}`, `{{Quantity}}`
-- **Boolean**: `{{IsActive}}`, `{{Approved}}`
+- **Strings**: `{{name}}`, `{{email}}`
+- **Dates**: `{{date}}`, `{{createdAt}}`
+- **Numbers**: `{{amount}}`, `{{quantity}}`
+- **Boolean**: `{{isActive}}`, `{{approved}}`
 
 ### Advanced Template Features
 

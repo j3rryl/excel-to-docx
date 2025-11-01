@@ -22,7 +22,7 @@ program
   .option("-o, --output <dir>", "Output directory", "./output")
   .option(
     "-n, --name <template>",
-    "Filename template (use {{FieldName}} for placeholders)",
+    "Filename template (use {{fieldName}} for placeholders)",
     "{{name}}"
   )
   .option("-v, --verbose", "Show detailed output", false)

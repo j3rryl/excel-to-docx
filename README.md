@@ -130,8 +130,8 @@ bun add excel-to-docx
 import { generateDocuments } from "excel-to-docx";
 
 const result = await generateDocuments({
-  excelFile: "data.xlsx",
-  templateFile: "template.docx",
+  excelPath: "data.xlsx",
+  templatePath: "template.docx",
   options: {
     outputDir: "./contracts",
     fileNameTemplate: "{{name}}_Agreement",
@@ -151,8 +151,8 @@ import { generateDocuments } from "excel-to-docx";
 async function generateContractDocuments() {
   try {
     const result = await generateDocuments({
-      excelFile: "data.xlsx",
-      templateFile: "template.docx",
+      excelPath: "data.xlsx",
+      templatePath: "template.docx",
       options: {
         outputDir: "./legal-docs",
         fileNameTemplate: "Contract_{{company}}_{{date}}",

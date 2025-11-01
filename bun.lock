@@ -4,7 +4,6 @@
     "": {
       "name": "generate-docs",
       "dependencies": {
-        "bun-plugin-dts": "^0.3.0",
         "commander": "^14.0.2",
         "docxtemplater": "^3.42.0",
         "pizzip": "^3.1.4",
@@ -12,6 +11,7 @@
       },
       "devDependencies": {
         "@types/bun": "latest",
+        "bun-plugin-dts": "^0.3.0",
         "typescript": "^5.0.0",
       },
     },

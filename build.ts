@@ -6,6 +6,11 @@ const defaultBuildConfig: BuildConfig = {
   outdir: "./dist",
 };
 
+const cliBuildConfig: BuildConfig = {
+  entrypoints: ["./src/cli.ts"],
+  outdir: "./dist",
+  target: "node",
+};
 await Promise.all([
   Bun.build({
     ...defaultBuildConfig,
@@ -17,5 +22,10 @@ await Promise.all([
     ...defaultBuildConfig,
     format: "cjs",
     naming: "[dir]/[name].cjs",
+  }),
+  Bun.build({
+    ...cliBuildConfig,
+    format: "esm",
+    naming: "[dir]/[name].js",
   }),
 ]);

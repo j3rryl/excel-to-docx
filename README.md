@@ -1,5 +1,7 @@
 # Excel to DOCX
 
+This library supports **only the [Bun](https://bun.sh) runtime**.
+
 A powerful, type-safe document generation tool that creates multiple DOCX documents from Excel data using Word templates. Built with Bun and TypeScript for maximum performance and reliability.
 
 ## Features
@@ -22,16 +24,6 @@ bun install -g excel-to-docx
 
 # Or use with bunx
 bunx excel-to-docx
-```
-
-### For Node.js Users
-
-```bash
-# Install globally
-npm install -g excel-to-docx
-
-# Or use with npx
-npx excel-to-docx
 ```
 
 ## Quick Start
@@ -243,7 +235,7 @@ The tool provides comprehensive error reporting:
 
 ## Examples
 
-Check the `examples/` directory for sample files:
+Check the `tests/fixtures/` directory for sample files:
 
 ```bash
 # Clone the repository
